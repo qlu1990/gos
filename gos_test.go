@@ -61,3 +61,8 @@ func TestAddPost(t *testing.T) {
 		t.Error("POST method map len error")
 	}
 }
+
+func TestResponse(t *testing.T) {
+	w = response{}
+	Response(w, "test Response ", 200)
+}

@@ -1,6 +1,7 @@
 package gos
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 )
@@ -52,4 +53,9 @@ func (web *Gos) Run(args ...string) {
 	Glog.Info("server is running  ", web.Server.Addr)
 	web.Server.ListenAndServe()
 
+}
+
+func Response(w http.ResponseWriter, data string, status int) {
+	w.WriteHeader(status)
+	fmt.Fprintln(w, data)
 }
