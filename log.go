@@ -42,7 +42,7 @@ var Glog = &Log{
 var Mlog = Middleware{
 	Name: "log",
 	HandlerFunc: func(c *Context) {
-		Glog.Info("Request :", c.Request.RequestURI)
+		Glog.Info("Request : ", c.Request.Method, " ", c.Request.RequestURI)
 	},
 }
 
