@@ -32,3 +32,19 @@ func AddPerson(c *gos.Context) {
 	gos.Response(c.ResponseWriter, "success", http.StatusOK)
 
 }
+
+func ListPersons(c *gos.Context) {
+	persons, err := model.List()
+	if err != nil {
+		gos.Error(err)
+		http.Error(c.ResponseWriter, "404 NotFound ", http.StatusNotFound)
+		return
+	}
+	personsJson, err := json.Marshal(persons)
+	if err != nil {
+		gos.Error(err)
+		http.Error(c.ResponseWriter, "404 NotFound ", http.StatusNotFound)
+		return
+	}
+	gos.Response(c.ResponseWriter, string(personsJson), http.StatusOK)
+}

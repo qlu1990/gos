@@ -27,6 +27,7 @@ func main() {
 	r.AddGet("/bye", goodbye)
 	r.AddGet("/hello/person", person)
 	r.AddPost("/person/add", controller.AddPerson)
+	r.AddGet("/person/list", controller.ListPersons)
 	auth := gos.NewAuth()
 	auth.AddVerifySession("aaaa")
 	r.Use(gos.Mlog)
