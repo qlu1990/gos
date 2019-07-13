@@ -42,8 +42,8 @@
 
 ## 实现数据结构 
 
- -`Name` 中间件名称不能重名
- -`HandlerFunc`  被调用调用函数 
+ - `Name` 中间件名称不能重名
+ - `HandlerFunc`  被调用调用函数 
 ```golang
     type Middleware struct {  
 	Name        string
