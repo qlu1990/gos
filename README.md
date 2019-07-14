@@ -38,6 +38,19 @@
     r.AddDelete(url string ,f HandlerFunc) // 路由delete
 
 ```
+ - 请求路径中带参数
+  ```golang
+    func GetPerson(c *gos.Context) {
+	name := c.Param("name")
+	gos.Response(c.ResponseWriter,"hello "+name, http.StatusOK)
+    }
+    func main(){
+    r := gos.NewGos()
+    r.AddGet("/hello/:name",GetPerson)
+    }
+    
+
+  ```
 
 # Middleware
 
