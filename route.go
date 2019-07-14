@@ -20,7 +20,7 @@ const (
 )
 
 type Route struct {
-	Routers []map[string]HandlerFunc
+	Routers []*node
 	Uses    []Middleware
 }
 
@@ -34,11 +34,13 @@ type Handlers map[string]HandlerFunc
 
 func NewRoute() *Route {
 	r := &Route{
-		Routers: make([]map[string]HandlerFunc, 9),
+		Routers: make([]*node, 9),
 		Uses:    make([]Middleware, 0),
 	}
 	for i := 0; i < END; i++ {
-		r.Routers[i] = make(Handlers)
+		n := new(node)
+		n.nodeType = ROOT
+		r.Routers[i] = n
 	}
 	return r
 }
@@ -50,32 +52,41 @@ type Middleware struct {
 	HandlerFunc HandlerFunc
 }
 
+//GET add get func
 func (ru *Route) GET(url string, f HandlerFunc) {
-	if _, ok := ru.Routers[GET][url]; ok {
-		Fatal("url :", url, "duplicate")
+	paths := GetPaths(url)
+	n := getMatchOne(ru.Routers[GET], paths)
+	if n != nil && n.handlerFunc != nil {
+		Fatal("Get url :", url, "duplicate")
 	}
-	ru.Routers[GET][url] = f
+	ru.Routers[GET].AddRoute(url, f)
 }
 
 func (ru *Route) POST(url string, f HandlerFunc) {
-	if _, ok := ru.Routers[POST][url]; ok {
-		Fatal("url :", url, "duplicate")
+	paths := GetPaths(url)
+	n := getMatchOne(ru.Routers[POST], paths)
+	if n != nil && n.handlerFunc != nil {
+		Fatal("Post url :", url, "duplicate")
 	}
-	ru.Routers[POST][url] = f
+	ru.Routers[POST].AddRoute(url, f)
 }
 
 func (ru *Route) HEAD(url string, f HandlerFunc) {
-	if _, ok := ru.Routers[HEAD][url]; ok {
-		Fatal("url :", url, "duplicate")
+	paths := GetPaths(url)
+	n := getMatchOne(ru.Routers[HEAD], paths)
+	if n != nil && n.handlerFunc != nil {
+		Fatal("Head url :", url, "duplicate")
 	}
-	ru.Routers[HEAD][url] = f
+	ru.Routers[HEAD].AddRoute(url, f)
 }
 
 func (ru *Route) DELETE(url string, f HandlerFunc) {
-	if _, ok := ru.Routers[DELETE][url]; ok {
-		Fatal("url :", url, "duplicate")
+	paths := GetPaths(url)
+	n := getMatchOne(ru.Routers[DELETE], paths)
+	if n != nil && n.handlerFunc != nil {
+		Fatal("Delete url :", url, "duplicate")
 	}
-	ru.Routers[DELETE][url] = f
+	ru.Routers[DELETE].AddRoute(url, f)
 }
 
 func (ru *Route) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -112,6 +123,7 @@ func (ru *Route) call(w http.ResponseWriter, r *http.Request, method int) {
 		ResponseWriter: w,
 		Request:        r,
 		NextFlag:       true,
+		Params:         make(map[string]string),
 	}
 	for _, v := range ru.Uses {
 		v.HandlerFunc(c)
@@ -120,9 +132,18 @@ func (ru *Route) call(w http.ResponseWriter, r *http.Request, method int) {
 		}
 
 	}
-	h := getLongPathFunc(ru.Routers[method], r.RequestURI)
-	if h != nil {
-		h(c)
+	paths := GetPaths(r.RequestURI)
+	n := getMatchOne(ru.Routers[method], paths)
+	routePaths := GetPaths(n.fullPath)
+	for i, v := range paths {
+		if strings.HasPrefix(routePaths[i], ":") {
+			c.Params[string(routePaths[i][1:])] = v
+		}
+	}
+	if n != nil {
+		n.handlerFunc(c)
+	} else {
+		StatusNotFound(c)
 	}
 }
 
@@ -138,4 +159,9 @@ func getLongPathFunc(handlers Handlers, url string) (h HandlerFunc) {
 	}
 
 	return h
+}
+
+// StatusNotFound 404 notFound
+func StatusNotFound(c *Context) {
+	http.Error(c.ResponseWriter, "404 NotFound", http.StatusNotFound)
 }

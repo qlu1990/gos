@@ -41,3 +41,23 @@ func List() ([]*Person, error) {
 	}
 	return result, err
 }
+func GetPersonByName(name string) ([]*Person, error) {
+	ctx, _ := context.WithTimeout(Mongo.Ctx, Mongo.Timeout)
+	filter := make(map[string]interface{})
+	filter["name"] = name
+	// findOptions := new(options.FindOptions)
+	result := make([]*Person, 0)
+	cur, err := Mongo.Client.Database("test").Collection("person").Find(ctx, filter)
+	if err != nil {
+		return result, err
+	}
+	for cur.Next(ctx) {
+		person := new(Person)
+		err = cur.Decode(person)
+		if err != nil {
+			return result, err
+		}
+		result = append(result, person)
+	}
+	return result, err
+}
