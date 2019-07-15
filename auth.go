@@ -6,20 +6,20 @@ import (
 )
 
 // Auth struct for auth verify
-type Auth struct {
+type BasicAuth struct {
 	Sessions []string
 	white    []string
 }
 
 // NewAuth get a new *Auth
-func NewAuth() *Auth {
+func NewAuth() *BasicAuth {
 	return &Auth{
 		Sessions: make([]string, 0),
 	}
 }
 
 // Verification hanlderfunc for Verifiy
-func (a *Auth) Verification(c *Context) {
+func (a *BasicAuth) Verification(c *Context) {
 	for _, v := range a.white {
 		if strings.Contains(c.Request.RequestURI, v) {
 			return
@@ -39,7 +39,7 @@ func (a *Auth) Verification(c *Context) {
 }
 
 // MVerify get vertify  Middleware type
-func (a *Auth) MVerify() Middleware {
+func (a *BasicAuth) MVerify() Middleware {
 	return Middleware{
 		Name:        "auth",
 		HandlerFunc: a.Verification,
@@ -47,6 +47,6 @@ func (a *Auth) MVerify() Middleware {
 }
 
 // AddVerifySession  add Session
-func (a *Auth) AddVerifySession(Session string) {
+func (a *BasicAuth) AddVerifySession(Session string) {
 	a.Sessions = append(a.Sessions, Session)
 }

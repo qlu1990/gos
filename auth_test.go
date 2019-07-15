@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-var auth *Auth
+var auth *BasicAuth
 
 type response struct {
 }
