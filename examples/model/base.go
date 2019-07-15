@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/qlu1990/gos"
+	"github.com/qlu1990/gos/gos"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )

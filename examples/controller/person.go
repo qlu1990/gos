@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/qlu1990/gos"
+	"github.com/qlu1990/gos/gos"
 	"github.com/qlu1990/gos/examples/model"
 )
 

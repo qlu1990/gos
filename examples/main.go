@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/qlu1990/gos"
+	"github.com/qlu1990/gos/gos"
 	"github.com/qlu1990/gos/examples/conf"
 	"github.com/qlu1990/gos/examples/controller"
 	"github.com/qlu1990/gos/examples/model"
