@@ -147,20 +147,6 @@ func (ru *Route) call(w http.ResponseWriter, r *http.Request, method int) {
 	}
 }
 
-func getLongPathFunc(handlers Handlers, url string) (h HandlerFunc) {
-	keyLen := 1000000
-	for k, v := range handlers {
-		if strings.Contains(k, url) {
-			if len(k) < keyLen {
-				keyLen = len(k)
-				h = v
-			}
-		}
-	}
-
-	return h
-}
-
 // StatusNotFound 404 notFound
 func StatusNotFound(c *Context) {
 	http.Error(c.ResponseWriter, "404 NotFound", http.StatusNotFound)

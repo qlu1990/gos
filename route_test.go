@@ -35,13 +35,6 @@ func TestDELETE(t *testing.T) {
 	route.DELETE("/hello", funcation)
 }
 
-func TestGetLongPathFunc(t *testing.T) {
-	hello := getLongPathFunc(route.Routers[GET], "/hello")
-	if hello == nil {
-		t.Error("getlongpathFunc run error")
-	}
-}
-
 func TestCall(t *testing.T) {
 	r.RequestURI = "/hello"
 	route.call(w, r, GET)

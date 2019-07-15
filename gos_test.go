@@ -1,5 +1,7 @@
 package gos
 
+
+
 import (
 	"fmt"
 	"testing"
@@ -23,41 +25,29 @@ func TestUse(t *testing.T) {
 }
 
 func TestAddGet(t *testing.T) {
-	if len(gos.Route.Routers[GET]) != 0 {
-		t.Error("GET method map len error")
-	}
 	gos.AddGet("/hello", funcation)
-	if len(gos.Route.Routers[GET]) == 0 {
+	if getMatchOne(gos.Route.Routers[GET],GetPaths("/hello")) == nil {
 		t.Error("GET method map len error")
 	}
 }
 
 func TestAddHead(t *testing.T) {
-	if len(gos.Route.Routers[HEAD]) != 0 {
-		t.Error("HEAD method map len error")
-	}
 	gos.AddHead("/hello", funcation)
-	if len(gos.Route.Routers[HEAD]) == 0 {
+	if getMatchOne(gos.Route.Routers[HEAD],GetPaths("/hello")) == nil {
 		t.Error("HEAD method map len error")
 	}
 }
 
 func TestAddDelete(t *testing.T) {
-	if len(gos.Route.Routers[DELETE]) != 0 {
-		t.Error("DELETE method map len error")
-	}
 	gos.AddDetele("/hello", funcation)
-	if len(gos.Route.Routers[DELETE]) == 0 {
+	if getMatchOne(gos.Route.Routers[DELETE],GetPaths("/hello")) == nil {
 		t.Error("DELETE method map len error")
 	}
 }
 
 func TestAddPost(t *testing.T) {
-	if len(gos.Route.Routers[POST]) != 0 {
-		t.Error("POST method map len error")
-	}
 	gos.AddPost("/hello", funcation)
-	if len(gos.Route.Routers[POST]) == 0 {
+	if getMatchOne(gos.Route.Routers[POST],GetPaths("/hello")) == nil {
 		t.Error("POST method map len error")
 	}
 }

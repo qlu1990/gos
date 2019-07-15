@@ -1,5 +1,7 @@
 package gos
 
+
+
 import (
 	"net/http"
 	"strings"
@@ -13,7 +15,7 @@ type BasicAuth struct {
 
 // NewAuth get a new *Auth
 func NewAuth() *BasicAuth {
-	return &Auth{
+	return &BasicAuth{
 		Sessions: make([]string, 0),
 	}
 }
