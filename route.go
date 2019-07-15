@@ -24,11 +24,12 @@ type Route struct {
 	Uses    []Middleware
 }
 
+// IRoute interface for route
 type IRoute interface {
-	GET(url string, f HandlerFunc)
-	POST(url string, f HandlerFunc)
-	HEAD(url string, f HandlerFunc)
-	DELETE(url string, f HandlerFunc)
+	Get(url string, f HandlerFunc)
+	Post(url string, f HandlerFunc)
+	Head(url string, f HandlerFunc)
+	Delete(url string, f HandlerFunc)
 }
 type Handlers map[string]HandlerFunc
 
@@ -53,7 +54,7 @@ type Middleware struct {
 }
 
 //GET add get func
-func (ru *Route) GET(url string, f HandlerFunc) {
+func (ru *Route) Get(url string, f HandlerFunc) {
 	paths := GetPaths(url)
 	n := getMatchOne(ru.Routers[GET], paths)
 	if n != nil && n.handlerFunc != nil {
@@ -62,7 +63,7 @@ func (ru *Route) GET(url string, f HandlerFunc) {
 	ru.Routers[GET].AddRoute(url, f)
 }
 
-func (ru *Route) POST(url string, f HandlerFunc) {
+func (ru *Route) Post(url string, f HandlerFunc) {
 	paths := GetPaths(url)
 	n := getMatchOne(ru.Routers[POST], paths)
 	if n != nil && n.handlerFunc != nil {
@@ -71,7 +72,7 @@ func (ru *Route) POST(url string, f HandlerFunc) {
 	ru.Routers[POST].AddRoute(url, f)
 }
 
-func (ru *Route) HEAD(url string, f HandlerFunc) {
+func (ru *Route) Head(url string, f HandlerFunc) {
 	paths := GetPaths(url)
 	n := getMatchOne(ru.Routers[HEAD], paths)
 	if n != nil && n.handlerFunc != nil {
@@ -80,7 +81,7 @@ func (ru *Route) HEAD(url string, f HandlerFunc) {
 	ru.Routers[HEAD].AddRoute(url, f)
 }
 
-func (ru *Route) DELETE(url string, f HandlerFunc) {
+func (ru *Route) Delete(url string, f HandlerFunc) {
 	paths := GetPaths(url)
 	n := getMatchOne(ru.Routers[DELETE], paths)
 	if n != nil && n.handlerFunc != nil {

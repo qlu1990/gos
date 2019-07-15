@@ -22,17 +22,17 @@ func TestRouteUse(t *testing.T) {
 	route.Use(mtest)
 }
 
-func TestGET(t *testing.T) {
-	route.GET("/hello", funcation)
+func TestGet(t *testing.T) {
+	route.Get("/hello", funcation)
 }
-func TestPOST(t *testing.T) {
-	route.POST("/hello", funcation)
+func TestPost(t *testing.T) {
+	route.Post("/hello", funcation)
 }
-func TestHEAD(t *testing.T) {
-	route.HEAD("/hello", funcation)
+func TestHead(t *testing.T) {
+	route.Head("/hello", funcation)
 }
-func TestDELETE(t *testing.T) {
-	route.DELETE("/hello", funcation)
+func TestDelete(t *testing.T) {
+	route.Delete("/hello", funcation)
 }
 
 func TestCall(t *testing.T) {

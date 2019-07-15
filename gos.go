@@ -31,19 +31,19 @@ func (g *Gos) Use(m Middleware) {
 }
 
 func (g *Gos) AddGet(url string, f HandlerFunc) {
-	g.Route.GET(url, f)
+	g.Route.Get(url, f)
 }
 
 func (g *Gos) AddPost(url string, f HandlerFunc) {
-	g.Route.POST(url, f)
+	g.Route.Post(url, f)
 }
 
 func (g *Gos) AddHead(url string, f HandlerFunc) {
-	g.Route.HEAD(url, f)
+	g.Route.Head(url, f)
 }
 
 func (g *Gos) AddDetele(url string, f HandlerFunc) {
-	g.Route.DELETE(url, f)
+	g.Route.Delete(url, f)
 }
 
 func (web *Gos) Run(args ...string) {
