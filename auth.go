@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// Auth struct for auth verify
+// BasicAuth struct for auth verify
 type BasicAuth struct {
 	Sessions []string
 	white    []string
