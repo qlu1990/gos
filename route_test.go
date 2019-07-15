@@ -19,20 +19,20 @@ var (
 )
 
 func TestRouteUse(t *testing.T) {
-	route.Use(mtest)
+	route.use(mtest)
 }
 
 func TestGet(t *testing.T) {
-	route.Get("/hello", funcation)
+	route.get("/hello", funcation)
 }
 func TestPost(t *testing.T) {
-	route.Post("/hello", funcation)
+	route.post("/hello", funcation)
 }
 func TestHead(t *testing.T) {
-	route.Head("/hello", funcation)
+	route.head("/hello", funcation)
 }
 func TestDelete(t *testing.T) {
-	route.Delete("/hello", funcation)
+	route.delete("/hello", funcation)
 }
 
 func TestCall(t *testing.T) {

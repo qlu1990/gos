@@ -6,6 +6,7 @@ import (
 
 type nodeType uint8
 
+//node type
 const (
 	static nodeType = iota
 	ROOT
@@ -48,11 +49,12 @@ func GetPaths(url string) []string {
 	}
 	if len(url) > 0 {
 		return strings.Split(url, "/")
-	} else {
+	} 
 		return make([]string, 0)
-	}
+	
 
 }
+//AddRoute add Route to tree
 func (n *node) AddRoute(url string, handlerFunc HandlerFunc) {
 	paths := GetPaths(url)
 	pathsLen := len(paths)

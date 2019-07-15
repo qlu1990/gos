@@ -39,7 +39,7 @@ func TestAddHead(t *testing.T) {
 }
 
 func TestAddDelete(t *testing.T) {
-	gos.AddDetele("/hello", funcation)
+	gos.AddDelete("/hello", funcation)
 	if getMatchOne(gos.Route.Routers[DELETE],GetPaths("/hello")) == nil {
 		t.Error("DELETE method map len error")
 	}

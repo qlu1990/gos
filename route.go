@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 )
-
+//method id
 const (
 	GET = iota
 	POST
@@ -18,7 +18,7 @@ const (
 	TRACE
 	END
 )
-
+//Route route struct
 type Route struct {
 	Routers []*node
 	Uses    []Middleware
@@ -31,8 +31,8 @@ type IRoute interface {
 	Head(url string, f HandlerFunc)
 	Delete(url string, f HandlerFunc)
 }
-type Handlers map[string]HandlerFunc
 
+//NewRoute get new *Route
 func NewRoute() *Route {
 	r := &Route{
 		Routers: make([]*node, 9),
@@ -46,15 +46,17 @@ func NewRoute() *Route {
 	return r
 }
 
+//HandlerFunc func type for handle request
 type HandlerFunc func(*Context)
 
+//Middleware middleware struct
 type Middleware struct {
 	Name        string
 	HandlerFunc HandlerFunc
 }
 
-//GET add get func
-func (ru *Route) Get(url string, f HandlerFunc) {
+
+func (ru *Route) get(url string, f HandlerFunc) {
 	paths := GetPaths(url)
 	n := getMatchOne(ru.Routers[GET], paths)
 	if n != nil && n.handlerFunc != nil {
@@ -63,7 +65,7 @@ func (ru *Route) Get(url string, f HandlerFunc) {
 	ru.Routers[GET].AddRoute(url, f)
 }
 
-func (ru *Route) Post(url string, f HandlerFunc) {
+func (ru *Route) post(url string, f HandlerFunc) {
 	paths := GetPaths(url)
 	n := getMatchOne(ru.Routers[POST], paths)
 	if n != nil && n.handlerFunc != nil {
@@ -72,7 +74,7 @@ func (ru *Route) Post(url string, f HandlerFunc) {
 	ru.Routers[POST].AddRoute(url, f)
 }
 
-func (ru *Route) Head(url string, f HandlerFunc) {
+func (ru *Route) head(url string, f HandlerFunc) {
 	paths := GetPaths(url)
 	n := getMatchOne(ru.Routers[HEAD], paths)
 	if n != nil && n.handlerFunc != nil {
@@ -81,7 +83,7 @@ func (ru *Route) Head(url string, f HandlerFunc) {
 	ru.Routers[HEAD].AddRoute(url, f)
 }
 
-func (ru *Route) Delete(url string, f HandlerFunc) {
+func (ru *Route) delete(url string, f HandlerFunc) {
 	paths := GetPaths(url)
 	n := getMatchOne(ru.Routers[DELETE], paths)
 	if n != nil && n.handlerFunc != nil {
@@ -90,6 +92,7 @@ func (ru *Route) Delete(url string, f HandlerFunc) {
 	ru.Routers[DELETE].AddRoute(url, f)
 }
 
+//ServeHTTP interface func
 func (ru *Route) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
@@ -105,7 +108,7 @@ func (ru *Route) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func (ru *Route) Use(m Middleware) {
+func (ru *Route) use(m Middleware) {
 	exists := false
 	for _, v := range ru.Uses {
 		if strings.Compare(v.Name, m.Name) == 0 {
