@@ -41,6 +41,7 @@ func initNewNode(path string, last bool, handlerFunc HandlerFunc) *node {
 
 // GetPaths split url to path
 func GetPaths(url string) []string {
+	url = strings.Split(url, "?")[0]
 	if strings.HasPrefix(url, "/") {
 		url = string(url[1:])
 	}
@@ -49,11 +50,11 @@ func GetPaths(url string) []string {
 	}
 	if len(url) > 0 {
 		return strings.Split(url, "/")
-	} 
-		return make([]string, 0)
-	
+	}
+	return make([]string, 0)
 
 }
+
 //AddRoute add Route to tree
 func (n *node) AddRoute(url string, handlerFunc HandlerFunc) {
 	paths := GetPaths(url)
